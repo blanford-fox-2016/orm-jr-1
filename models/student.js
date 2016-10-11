@@ -22,17 +22,29 @@ class Student {
       if (error) {
         console.error(error);
       } else {
-        console.log(`First Name of your data is updated as '${first_name}'`);
+        console.log(`First Name of your data with id: ${id} is updated as '${first_name}'`);
       }
     });
   }
 
   static delete(connection, id) {
-
+    connection.run(`DELETE FROM students WHERE id = '${id}'`, (error) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(`The id = '${id}' is being deleted`);
+      }
+    });
   }
 
-  static showAll() {
-
+  static showAll(connection) {
+    connection.each(`SELECT * FROM students`, (error, data) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(data.id + " " + data.first_name + " " + data.last_name + " " + data.cohort_id);
+      }
+    })
   }
 
 }
