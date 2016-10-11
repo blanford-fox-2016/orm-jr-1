@@ -1,30 +1,25 @@
 "use strict"
 
 class DBModel {
-  static get connection(){
-    let sqlite3 = require('sqlite3').verbose();
-    let db = new sqlite3.Database('./db/init.sql');
-    return db
+  constructor() {
+    this.sqlite3 = require('sqlite3').verbose();
+    this.connection = new this.sqlite3.Database('./db/init.sql');
   }
 
-  create_table_students() {
+  create_table_students(cb) {
     let CREATE_TABLE = `CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT NOT NULL, lastname TEXT, cohort_id INTEGER, FOREIGN KEY (cohort_id) REFERENCES cohorts(id));`
-    DBModel.connection.run(CREATE_TABLE, (err) => {
-      if (err){
-        console.log(err);
-      }else{
-        console.log('TABLE students CREATED');
+    this.connection.run(CREATE_TABLE, () => {
+      if (cb != null) {
+        cb();
       }
     })
   }
 
-  create_table_cohorts() {
+  create_table_cohorts(cb) {
     let CREATE_TABLE = `CREATE TABLE IF NOT EXISTS cohorts (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);`
-    DBModel.connection.run(CREATE_TABLE, (err) => {
-      if (err){
-        console.log(err);
-      }else{
-        console.log('TABLE cohorts CREATED');
+    this.connection.run(CREATE_TABLE, () => {
+      if (cb != null) {
+        cb();
       }
     })
   }

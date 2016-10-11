@@ -9,25 +9,28 @@ class Student {
     this.cohort_id = property['cohort_id']
   }
 
-  static create(connection, object){
+  static create(connection, object, cb){
     let INSERT_DATA = connection.prepare(`INSERT INTO students VALUES (null, ?, ?, ?)`);
-    INSERT_DATA.run(object.firstname, object.lastname, object.cohort_id, (err) => {
-      if (err){
-        console.log(err);
-      } else {
-        console.log(`Data inserted`);
+    INSERT_DATA.run(object.firstname, object.lastname, object.cohort_id,
+     () => {
+      if (cb != null) {
+        cb();
       }
     });
     INSERT_DATA.finalize();
   }
 
-  static all(connection) {
+  static all(connection, cb) {
     let READ_ALL = `SELECT * FROM students`;
     connection.each(READ_ALL, (err, row) => {
       if (err) {
         console.log(err);
       } else {
         console.log(`${row.id} | ${row.firstname} | ${row.lastname} | ${row.cohort_id}`);
+      }
+    }, () => {
+      if (cb != null) {
+        cb();
       }
     });
   }
@@ -39,33 +42,37 @@ class Student {
 
   static findByName(connection, name, cb) {
     let FIND_NAME = `SELECT * FROM students WHERE firstname LIKE '%${name}%' OR lastname LIKE '%${name}%'`;
-    connection.each(FIND_NAME, cb)
+    connection.each(FIND_NAME, () => {
+      if (cb != null) {
+        cb();
+      }
+    })
   }
 
   static where(connection, condition) {
     let WHERE = `SELECT * FROM students WHERE ${condition}`;
-    connection.each(WHERE, cb)
+    connection.each(WHERE, () => {
+      if (cb != null) {
+        cb();
+      }
+    })
   }
 
-  static update(connection, col, val, id) {
+  static update(connection, col, val, id, cb) {
     let UPDATE = connection.prepare(`UPDATE students SET '${col}' = ? WHERE id = ?`);
-    UPDATE.run(val, id, (err) => {
-      if (err){
-        console.log(err);
-      } else {
-        console.log(`Data updated`);
+    UPDATE.run(val, id, () => {
+      if (cb != null) {
+        cb();
       }
     });
     UPDATE.finalize();
   }
 
-  static destroy(connection, condition) {
+  static destroy(connection, condition, cb) {
     let DESTROY_DATA = `DELETE FROM students WHERE ${condition}`;
-    connection.run(DESTROY_DATA, (err) => {
-      if (err){
-        console.log(err);
-      } else {
-        console.log(`Data Deleted`);
+    connection.run(DESTROY_DATA, () => {
+      if (cb != null) {
+        cb();
       }
     })
   }
