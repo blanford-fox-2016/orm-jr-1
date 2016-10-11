@@ -50,7 +50,7 @@ Cohort.find(dbModel.connection, 5, function(data){
   // console.log(data.name);
   cohort = data
   // console.log(cohort.id);
-  cohort.name = "5th Cohort"
+  // cohort.name = "5th Cohort"
   // console.log(cohort.name);
   // Cohort.update(dbModel.connection, cohort)
 })
