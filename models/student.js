@@ -17,14 +17,8 @@ class Student {
     });
   }
 
-  static update(connection, id, first_name) {
-    connection.run(`UPDATE students SET first_name = '${first_name}' WHERE id = '${id}'`, (error) => {
-      if (error) {
-        console.error(error);
-      } else {
-        console.log(`First Name of your data with id: ${id} is updated as '${first_name}'`);
-      }
-    });
+  static update(connection, id, object) {
+    connection.run(`UPDATE students SET first_name = '${object.first_name}', last_name = '${object.last_name}', cohort_id = '${object.cohort_id}' WHERE id = '${id}'`);
   }
 
   static delete(connection, id) {
