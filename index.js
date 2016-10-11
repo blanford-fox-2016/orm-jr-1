@@ -46,18 +46,27 @@ let dbModel = new DBModel()
 //update
 let cohort
 
-Cohort.find(dbModel.connection, 5, function(data){
+let functionCB = (cohort) => {
+  // console.log(cohort);
+  // console.log(cohort.name);
+  Cohort.update(dbModel.connection, cohort)
+}
+
+Cohort.find(dbModel.connection, 7, function(data){
   // console.log(data.name);
   cohort = data
   // console.log(cohort.id);
-  // cohort.name = "5th Cohort"
+  cohort.name = "new Cohort"
   // console.log(cohort.name);
   // Cohort.update(dbModel.connection, cohort)
-})
+}, functionCB)
 
-//lihat cohort berdasarkan ID
-Cohort.find(dbModel.connection, 5, function(data){
+Cohort.find(dbModel.connection, 7, function(data){
   console.log(data.name);
 })
 
-// console.log(`ini isi cohort : ${cohort}`);
+
+
+// setTimeout(function(){
+//   console.log(cohort.name);
+// }, 1000)
