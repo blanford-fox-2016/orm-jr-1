@@ -26,22 +26,22 @@ import Student from "./models/student.js";
 //
 //
 //
-// Cohort.where(DBModel.connection, 1 , function(data, err){
-//   // console.log(data.length);
-//   if (!err) {
-//     for (var i = 0; i < data.length; i++) {
-//       console.log(data[i]);
-//     }
-//   } else {
-//     console.log("Error");
-//   }
-//   //console.log(data);
-// })
-
-
-let cohort = {}
-Cohort.find(DBModel.connection, 1, function(data){
-    cohort.data = data
-    cohort.name = 'Best Cohort Ever Ever'
-    Cohort.update(DBModel.connection, cohort.data, cohort.name)
+Cohort.where(DBModel.connection, 1 , function(data, err){
+  // console.log(data.length);
+  if (!err) {
+    for (var i = 0; i < data.length; i++) {
+      console.log(data[i]);
+    }
+  } else {
+    console.log("Error");
+  }
+  //console.log(data);
 })
+
+
+// let cohort = {}
+// Cohort.find(DBModel.connection, 1, function(data){
+//     cohort.data = data
+//     cohort.name = 'Best Cohort Ever Ever'
+//     Cohort.update(DBModel.connection, cohort.data, cohort.name)
+// })

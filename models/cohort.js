@@ -33,7 +33,7 @@ class Cohort {
 
   static where(dataModel, where, view) {
     var test = []
-    dataModel.all(`SELECT * FROM cohort_table`, function(err, rows) {
+    dataModel.all(`SELECT * FROM cohort_table WHERE id = ${where}`, function(err, rows) {
     //console.log(row.id + ": " + row.cohort_name);
 
       view(rows)
