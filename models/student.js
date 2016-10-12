@@ -31,11 +31,12 @@ class Student {
   });
   }
 
-  static all(dataModel) {
-    
-    dataModel.each("SELECT * FROM student", function(err, row) {
-    console.log(row.id + ": " + row.firstname + " "+ row.lastname + " " + row.cohort_id);
-      });
+  static all(dataModel, cb) {
+
+    dataModel.all("SELECT student.id, student.firstname, student.lastname, cohort_table.cohort_name FROM student JOIN cohort_table ON student.cohort_id = cohort_table.id", function(err, row) {
+    // console.log(row.id + ": " + row.firstname + " "+ row.lastname + " " + row.cohort_id);
+        cb(row)
+    });
 
   } // end all method
 

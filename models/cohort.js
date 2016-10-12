@@ -36,8 +36,6 @@ class Cohort {
     dataModel.all(`SELECT * FROM cohort_table`, function(err, rows) {
     //console.log(row.id + ": " + row.cohort_name);
 
-      // test.push(row)
-
       view(rows)
     });
 
@@ -56,9 +54,8 @@ class Cohort {
     })
   }
 
-  static update(dataModel, cohort) {
-
-    dataModel.run(`UPDATE cohort_table SET cohort_name = 'Best Cohort Ever' WHERE id = ${cohort}`, function(err){
+  static update(dataModel, cohort, name) {
+    dataModel.run(`UPDATE cohort_table SET cohort_name = '${name}' WHERE id = ${cohort}`, function(err){
       if(err){
         console.log(err);
       }else{

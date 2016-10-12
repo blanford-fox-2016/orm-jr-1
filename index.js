@@ -13,7 +13,7 @@ import Student from "./models/student.js";
 
 
 // Student.all(DBModel.connection, function(data, err){
-//   if (err) {
+//   if (!err) {
 //     for (var i = 0; i < data.length; i++) {
 //       console.log(data[i]);
 //     }
@@ -21,6 +21,8 @@ import Student from "./models/student.js";
 //     console.log("Error");
 //   }
 // })
+
+
 //
 //
 //
@@ -37,15 +39,9 @@ import Student from "./models/student.js";
 // })
 
 
-let cohort
-Cohort.find(DBModel.connection,1,
-  function(data){
-    cohort = data
-    Cohort.update(DBModel.connection, cohort)
-    // return cohort
-    // console.log(data);
+let cohort = {}
+Cohort.find(DBModel.connection, 1, function(data){
+    cohort.data = data
+    cohort.name = 'Best Cohort Ever Ever'
+    Cohort.update(DBModel.connection, cohort.data, cohort.name)
 })
-//console.log(cohort);
-// Cohort.update(DBModel.connection, cohort)
-// cohort.name = 'Best Cohort Ever'
-// Cohort.update(DBModel.connection, cohort)
