@@ -31,7 +31,6 @@ var dbMOdel = new DBMOdel();
 //     console.log('Error');
 //   }
 // })
-
 Cohort.where(dbMOdel.connection, 'cohort_id = 2',
 function (err, data){
   console.log(data);
@@ -47,5 +46,4 @@ function (err, data){
 //   function(data){
 //     cohort = data;
 //   }) ;
-
-Cohort.update(dbMOdel.connection,cohort)
+Cohort.update(dbMOdel.connection,"math")
