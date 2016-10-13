@@ -5,6 +5,7 @@ import Cohort from "./models/cohort.js";
 import Student from "./models/student.js";
 
 const faker = require('faker')
+const repl = require('repl')
 let dbModel = new DBModel();
 
 let makeTable = () => {
@@ -86,9 +87,9 @@ let allCohorts = () => {
   })
 }
 
-let foxes = () => {
+let foxes = (param) => {
     //Blanford fox
-    Cohort.cohort_students(dbModel.connection, 2);
+    Cohort.cohort_students(dbModel.connection, param);
 }
 
 
@@ -129,11 +130,13 @@ let killStudent = () => {
   })
 }
 
-// makeTable();
-// insertStudent();
-// insertCohort();
-// allStudents();
-// allCohorts();
-// foxes();
-// editName();
-killStudent()
+
+var r = repl.start({prompt: '>'});
+r.context.makeTable = makeTable
+r.context.insertNewStudent = insertStudent
+r.context.insertNewCohort = insertCohort
+r.context.viewAllStudents = allStudents
+r.context.viewAllCohorts = allCohorts
+r.context.foxes = foxes  // foxes(cohort_id)
+r.context.deleteStudent = killStudent
+r.context.editName = editName
