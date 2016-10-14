@@ -43,8 +43,11 @@ class Cohort {
 
   static find(dbModel, id, functionData, cb){
     // console.log(cb);
+    // console.log(id);
+    let newCohort
     dbModel.each(`SELECT * FROM cohort WHERE id = ${id}`, (err, row) => {
-      let newCohort = new Cohort(row.name, row.id)
+      // console.log(row.name);
+      newCohort = new Cohort(row.name, row.id)
       functionData(newCohort)
       cb != null ? cb(newCohort) : ''
     })

@@ -4,6 +4,7 @@ import DBModel from "./models/db_model.js";
 import Cohort from "./models/cohort.js";
 import Student from "./models/student.js";
 
+const repl = require('repl')
 let dbModel = new DBModel()
 
 //Create & Insert Data
@@ -46,27 +47,102 @@ let dbModel = new DBModel()
 //update
 let cohort
 
-let functionCB = (cohort) => {
-  // console.log(cohort);
-  // console.log(cohort.name);
-  Cohort.update(dbModel.connection, cohort)
-}
 
-Cohort.find(dbModel.connection, 7, function(data){
-  // console.log(data.name);
-  cohort = data
-  // console.log(cohort.id);
-  cohort.name = "new Cohort"
-  // console.log(cohort.name);
-  // Cohort.update(dbModel.connection, cohort)
-}, functionCB)
-
-Cohort.find(dbModel.connection, 7, function(data){
-  console.log(data.name);
-})
+//
+// Cohort.find(dbModel.connection, 7, function(data){
+//   // console.log(data.name);
+//   cohort = data
+//   // console.log(cohort.id);
+//   cohort.name = "new Cohort"
+//   // console.log(cohort.name);
+//   // Cohort.update(dbModel.connection, cohort)
+// }, functionCB)
+//
+// Cohort.find(dbModel.connection, 7, function(data){
+//   console.log(data.name);
+// })
 
 
+// repl.start({prompt: '> ', eval: Cohort.find})
+// repl.start({prompt: '> ', eval: Cohort.where})
+// repl.start({prompt: '> ', eval: Student.all})
 
-// setTimeout(function(){
-//   console.log(cohort.name);
-// }, 1000)
+var replServer = repl.start({prompt: '> '});
+
+replServer.defineCommand('readData', {
+  help: 'type .readData',
+  action: function() {
+    Student.all(dbModel.connection, function(data, err){
+      // console.log(data);
+      if(!err){
+        for(var i = 0 ; i < data.length; i++){
+          console.log(data[i].toString());
+        }
+        console.log(`--------------`);
+      }else{
+        console.log(`error`);
+        console.log(err);
+      }
+    })
+  }
+});
+
+
+replServer.defineCommand('create', {
+  help: 'type .create <firstname lastname cohortId>',
+  action: function(data) {
+    data = data.split(" ")
+    // console.log(data);
+    Student.create(dbModel.connection, new Student(data[0], data[1], data[2]))
+  }
+});
+
+replServer.defineCommand('find', {
+  help: 'type .find <id>',
+  action: function(id) {
+    Cohort.find(dbModel.connection, id, function(data){
+      console.log(`Data : ${data.name}`);
+    })
+  }
+});
+
+replServer.defineCommand('update', {
+  help: 'type .find <id_newData>',
+  action: function(data) {
+    data = data.split(" ")
+
+    let functionCB = (cohort) => {
+      // console.log(cohort);
+      // console.log(cohort.name);
+      // console.log(data[1]);
+      cohort.name = data[1]
+      Cohort.update(dbModel.connection, cohort)
+    }
+    Cohort.find(dbModel.connection, data[0], function(data){
+      // console.log(data.name);
+      cohort = data
+      // console.log(data[0]);
+      // console.log(cohort.id);
+      // cohort.name = "data Baru"
+      // console.log(cohort.name);
+      // Cohort.update(dbModel.connection, cohort)
+    }, functionCB)
+  }
+});
+
+replServer.defineCommand('saybye', function() {
+  console.log('Goodbye!');
+  this.close();
+});
+
+
+// const r = repl.start({prompt: '>', eval: myEval, writer: myWriter});
+//
+// function myEval(cmd, context, filename, callback) {
+//   console.log(filename);
+//   callback(null,cmd);
+// }
+//
+// function myWriter(output) {
+//   return output.toUpperCase();
+// }
