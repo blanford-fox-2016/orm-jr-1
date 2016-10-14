@@ -1,10 +1,11 @@
 "use strict"
 
 class Student {
-  constructor(firstname, lastname, cohort_id){
+  constructor(firstname, lastname, cohort_id, id){
     this.firstname = firstname
     this.lastname = lastname
     this.cohort_id = cohort_id
+    this.id = id || null
   }
 
   static create(dbModel, newData){
@@ -34,6 +35,35 @@ class Student {
       functionData([row.id, row.firstname, row.lastname, row.cohort_id], err)
     })
   }
+
+  static where(dbModel,where_clause,newData){
+      dbModel.each(`SELECT * FROM student WHERE ${where_clause}`,(err, row)=>{
+        newData([row.id, row.firstname, row.lastname],err)
+      })
+  }
+
+  static find(dbModel, id, functionData, cb){
+    let newStudent
+    dbModel.each(`SELECT * FROM student WHERE id = ${id}`, (err, row) => {
+      // console.log(row.name);
+      // console.log(row);
+      newStudent = new Student(row.firstname, row.lastname, row.cohort_id, row.id)
+      functionData(newStudent)
+      cb != null ? cb(newStudent) : ''
+    })
+  }
+
+  static update(dbModel, student){
+    // console.log(student);
+    dbModel.run(`UPDATE student set firstname = '${student.firstname}', lastname = '${student.lastname}', cohort_id = '${student.cohort_id}' WHERE id = '${student.id}'`, (err) => {
+      if(err){
+        console.log(err);
+      }else{
+        console.log(`Updated`);
+      }
+    })
+  }
+
 }
 
 export default Student

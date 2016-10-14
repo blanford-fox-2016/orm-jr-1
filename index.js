@@ -42,11 +42,25 @@ let dbModel = new DBModel()
 //     console.log('Error');
 //   }
 // });
-
+// Student.where(dbModel.connection,'id=1',function(data,err){
+//   if(!err){
+//     for(var i=0; i < data.length; i++){
+//       console.log(data[i]);
+//     }
+//   }else{
+//     console.log('Error');
+//   }
+// });
 
 //update
 let cohort
-
+// let functionCB = (cohort) => {
+//       // console.log(cohort);
+//       // console.log(cohort.name);
+//       // console.log(data[1]);
+//       cohort.name = data[1]
+//       Cohort.update(dbModel.connection, cohort)
+//     }
 
 //
 // Cohort.find(dbModel.connection, 7, function(data){
@@ -61,7 +75,24 @@ let cohort
 // Cohort.find(dbModel.connection, 7, function(data){
 //   console.log(data.name);
 // })
+//
 
+let student
+
+// let functionCB = (student) => {
+//   student.firstname = "namadepanbaru"
+//   student.lastname = "namabelakangbaru"
+//   student.cohort_id = 2
+//   Student.update(dbModel.connection, student)
+// }
+
+// Student.find(dbModel.connection, 1, function(data){
+//   student = data
+// }, functionCB)
+
+// Student.find(dbModel.connection, 1, function(data){
+//   console.log(`Firstname : ${data.firstname} Lastname : ${data.lastname} Cohort ID : ${data.cohort_id}`);
+// })
 
 // repl.start({prompt: '> ', eval: Cohort.find})
 // repl.start({prompt: '> ', eval: Cohort.where})
