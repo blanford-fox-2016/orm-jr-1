@@ -40,6 +40,37 @@ class Student {
 
   } // end all method
 
+  static where(dataModel, where, view) {
+    var test = []
+    dataModel.all(`SELECT student.id, student.firstname, student.lastname, cohort_table.cohort_name FROM student JOIN cohort_table ON student.cohort_id = cohort_table.id WHERE student.id = ${where}`, function(err, rows) {
+    //console.log(row.id + ": " + row.cohort_name);
+
+      view(rows)
+    });
+  }
+
+  static find(dataModel, id, cb) {
+    // console.log("test");
+    dataModel.serialize(function(){
+      dataModel.each(`SELECT * FROM student WHERE id = ${id}`, function(err, row) {
+      // console.log(row.id);
+      cb(row.id)
+      // return row.cohort_name
+
+        });
+    })
+  }
+
+  static update(dataModel, student, name) {
+    dataModel.run(`UPDATE student SET firstname = '${name}' WHERE id = ${student}`, function(err){
+      if(err){
+        console.log(err);
+      }else{
+        console.log(`Succes! UPDATE '${student}'`);
+      }
+    });
+  }
+
 }
 
 export default Student

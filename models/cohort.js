@@ -31,6 +31,15 @@ class Cohort {
   });
   }
 
+  static all(dataModel, cb) {
+
+    dataModel.all("SELECT * FROM cohort_table", function(err, row) {
+    // console.log(row.id + ": " + row.firstname + " "+ row.lastname + " " + row.cohort_id);
+        cb(row)
+    });
+
+  } // end all method
+
   static where(dataModel, where, view) {
     var test = []
     dataModel.all(`SELECT * FROM cohort_table WHERE id = ${where}`, function(err, rows) {
