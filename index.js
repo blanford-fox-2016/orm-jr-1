@@ -45,24 +45,25 @@ let seeAll = () =>{
   })
 }
 //seebyid
-// let cohortId = (id) => {
-//   Cohort.where(dbMOdel.connection, `cohort_id = '${id}'`
-//   function (err, data){
-//     console.log(data);
-//     if(err){
-//         console.log('Error/remember cohort_id = (number)');
-//     }
-//   });
-// }
+let kohort = (id) => {
+  Cohort.where(dbMOdel.connection, `cohort_id = '${id}'`,
+  function (err, data){
+    console.log(data);
+    if(err){
+        console.log('Error/remember cohort_id = (number)');
+    }
+  });
+}
 //create cohort
 let studenUpdate = (id,namadepan,namabelakang) => {
    Student.update(dbMOdel.connection,id,namadepan,namabelakang);
 }
+
 //deleteStudent
-let delete = (id) => {
+let hapus = (id) => {
   Student.delete(dbMOdel.connection,id)
 }
-//
+// //
 let updateCohort = (pelajaran) => {
   Cohort.update(dbMOdel.connection,pelajaran)
 }
@@ -81,8 +82,8 @@ r.context.create = create//create
 r.context.input = input//input(namadepan,namabelakang,jumlah)
 r.context.cohort = cohort//cohort
 r.context.seeAll = seeAll//seeAll
-// r.context.cohortId = cohortId//cohortId(id) error masih
+r.context.kohort = kohort//kohort(id) 
 r.context.studenUpdate = studenUpdate // studenUpdate (student_id,namadepan,namabelakang)
-r.context.delete = delete // delete(id)
+r.context.hapus = hapus // delete(id)
 r.context.updateCohort = updateCohort //updateCohort (pelajaran)
 r.context.cohortByid = cohortByid//cohortByid(id)
